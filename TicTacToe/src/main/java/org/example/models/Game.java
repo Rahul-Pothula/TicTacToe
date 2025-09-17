@@ -10,8 +10,10 @@ import org.example.strategies.winningstrategy.WinningStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDateTime;
 
 public class Game {
+    private String id;
     private Board board;
     private List<Player> players;
     private Player winner;
@@ -82,6 +84,7 @@ public class Game {
     }
 
     private Game(int size, List<Player> players, List<WinningStrategy> winningStrategies) {
+        this.id = generateGameId();
         this.players = players;
         this.board = new Board(size);
         this.winner = null;
@@ -89,6 +92,18 @@ public class Game {
         this.gameState = GameState.IN_PROGRESS;
         this.currentPlayerIndex = 0;
         this.winningStrategies = winningStrategies;
+    }
+    
+    private String generateGameId() {
+        return "game_" + System.currentTimeMillis() + "_" + hashCode();
+    }
+    
+    public String getId() {
+        return id;
+    }
+    
+    public void setId(String id) {
+        this.id = id;
     }
 
     private void validateMove(Move move) throws InvalidMoveException {
